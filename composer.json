@@ -17,7 +17,7 @@
         "illuminate/filesystem": "~5.3.28|~5.4.0",
         "illuminate/support": "~5.3.28|~5.4.0",
         "league/flysystem": "^1.0.27",
-        "spatie/db-dumper": "^2.3",
+        "spatie/db-dumper": "^2.3"
     },
     "autoload": {
         "psr-4": {
