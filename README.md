@@ -6,7 +6,7 @@ This Laravel package lets you restore your application to a previous declared st
 First require it in composer:
 
 ```bash
-composer require beeldcore/laravel-reset
+composer require beeldvoerders/laravel-reset
 ```
 
 Next, add the ResetServiceProvider class to your config/app.php providers array:
