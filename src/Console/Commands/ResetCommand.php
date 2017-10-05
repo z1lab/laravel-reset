@@ -52,15 +52,14 @@ class ResetCommand extends Command
             File::deleteDirectory($directory);
         }
 
-        if(config('reset.disk') != 'local')
-        {
-            file_put_contents(
-                storage_path('reset.zip'),
-                Storage::disk(config('reset.disk'))->get('reset.zip')
-            );
-        }
+        // Copy the zip file to the local temporary folder to make
+        // sure it is within reach
+        file_put_contents(
+            storage_path('tmp/reset.zip'),
+            Storage::disk(config('reset.disk'))->get('reset.zip')
+        );
         
-        ZipService::unzip('reset.zip', base_path());
+        ZipService::unzip('tmp/reset.zip', base_path());
 
         // Empty the database and import the dump file that is unzipped in
         // the root directory.
