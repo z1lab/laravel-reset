@@ -41,11 +41,11 @@ class ZipService
 	public function addDirectories( array $directories = [] )
 	{
 		$zip = new ZipArchive();
-        $zip->open($this->file, ZipArchive::CREATE);
+        	$zip->open($this->file, ZipArchive::CREATE);
 
-        foreach($directories AS $directory)
-        {
-        	$directory = base_path($directory);
+		foreach($directories AS $directory)
+		{
+			$directory = base_path($directory);
 
 			$files = new RecursiveIteratorIterator(
 				new RecursiveDirectoryIterator($directory),
@@ -56,7 +56,7 @@ class ZipService
 			{
 			    if (!$file->isDir())
 			    {
-			        $filepointer = $file->getRealPath();
+			        $filepointer = $file->getPathName();
 
 			        $zip->addFile(
 			        	$filepointer, 
