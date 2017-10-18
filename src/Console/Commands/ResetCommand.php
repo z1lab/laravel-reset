@@ -39,7 +39,7 @@ class ResetCommand extends Command
         $file = $this->option('file');
 
         if(empty($file))
-            $file =  base_path() . Storage::disk(config('reset.disk'))->url('reset.zip');
+            $file =  Storage::disk(config('reset.disk'))->path('reset.zip');
         else
             $file = storage_path($file);
 
