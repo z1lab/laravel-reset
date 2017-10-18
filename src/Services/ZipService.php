@@ -25,7 +25,7 @@ class ZipService
 	public static function create( $file )
 	{
 		$archive = new self();
-		$archive->file = storage_path($file);
+		$archive->file = $file;
 
 		@unlink($archive->file);
 
@@ -45,8 +45,6 @@ class ZipService
 
 		foreach($directories AS $directory)
 		{
-			$directory = base_path($directory);
-
 			$files = new RecursiveIteratorIterator(
 				new RecursiveDirectoryIterator($directory),
 				RecursiveIteratorIterator::LEAVES_ONLY
@@ -108,7 +106,7 @@ class ZipService
 	{
 		$zip = new ZipArchive;
 
-		if( ! $zip->open(storage_path($file)))
+		if( ! $zip->open($file))
 			throw new \Exception('Zip file not found');
 
 		$zip->extractTo($directory);

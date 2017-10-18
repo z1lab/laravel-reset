@@ -33,11 +33,14 @@ class CreateCommand extends Command
     	$this->info('Starting to create the backup file');
 
         // Zip current directory
-        $file = ZipService::create('temporary.zip');
+        $file = ZipService::create(storage_path('temporary.zip'));
 
         if(!empty(config('reset.directories')))
         {
-            $file->addDirectories(config('reset.directories'));
+            $file->addDirectories(array_map(function( $directory )
+            {
+                return base_path($directory);
+            }, config('reset.directories')));
         }
 
         if(!empty(config('reset.database')))

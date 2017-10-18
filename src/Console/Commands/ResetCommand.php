@@ -18,7 +18,7 @@ class ResetCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'reset';
+    protected $signature = 'reset {--file=}';
 
     /**
      * The console command description.
@@ -34,10 +34,17 @@ class ResetCommand extends Command
      */
     public function handle()
     {
-    	$this->info('Starting the reset process');
+        $this->info('Starting the reset process');
+
+        $file = $this->option('file');
+
+        if(empty($file))
+            $file =  base_path() . Storage::disk(config('reset.disk'))->url('reset.zip');
+        else
+            $file = storage_path($file);
 
         // Check if backup file exists
-        if( ! Storage::disk(config('reset.disk'))->exists('reset.zip'))
+        if( ! file_exists($file))
         {
             $this->error('Backup file does not exists. Please create it first using php artisan reset:backup');
 
@@ -51,15 +58,8 @@ class ResetCommand extends Command
         {
             File::deleteDirectory($directory);
         }
-
-        // Copy the zip file to the local temporary folder to make
-        // sure it is within reach
-        file_put_contents(
-            storage_path('tmp/reset.zip'),
-            Storage::disk(config('reset.disk'))->get('reset.zip')
-        );
         
-        ZipService::unzip('tmp/reset.zip', base_path());
+        ZipService::unzip($file, base_path());
 
         // Empty the database and import the dump file that is unzipped in
         // the root directory.
